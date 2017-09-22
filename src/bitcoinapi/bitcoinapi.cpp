@@ -62,7 +62,8 @@ int BitcoinAPI::StringToNumber (const string &text){
 string BitcoinAPI::RoundDouble(double num)
 {
 	ostringstream os;
-	os << dec << num;
+	os << fixed << dec << setprecision(8) << num;
+cout << "using " << os.str() << endl;
 	return os.str();
 }
 
