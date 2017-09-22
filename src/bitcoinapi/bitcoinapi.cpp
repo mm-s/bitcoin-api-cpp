@@ -12,6 +12,8 @@
 
 #include <string>
 #include <stdexcept>
+#include <iomanip>
+#include <sstream>
 #include <cmath>
 
 #include <jsonrpccpp/client.h>
@@ -30,6 +32,7 @@ using std::map;
 using std::string;
 using std::vector;
 
+using namespace std;
 
 BitcoinAPI::BitcoinAPI(const string& user, const string& password, const string& host, int port)
 : httpClient(new HttpClient("http://" + user + ":" + password + "@" + host + ":" + NumberToString(port))),
@@ -56,9 +59,11 @@ int BitcoinAPI::StringToNumber (const string &text){
 	return ss >> result ? result : 0;
 }
 
-double BitcoinAPI::RoundDouble(double num)
+string BitcoinAPI::RoundDouble(double num)
 {
-	return floor(num * pow(10,8)) / pow(10,8);
+	ostringstream os;
+	os << dec << num;
+	return os.str();
 }
 
 Value BitcoinAPI::sendcommand(const string& command, const Value& params){    
@@ -1143,7 +1148,6 @@ string BitcoinAPI::sendrawtransaction(const string& hexString, bool highFee) {
 
 	return result.asString();
 }
-
 
 string BitcoinAPI::createrawtransaction(const vector<txout_t>& inputs, const map<string,double>& amounts) {
 	string command = "createrawtransaction";
