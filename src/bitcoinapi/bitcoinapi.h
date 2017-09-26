@@ -30,13 +30,8 @@ public:
 
     /* === Auxiliary functions === */
     Json::Value sendcommand(const std::string& command, const Json::Value& params);
-<<<<<<< HEAD
-    std::string NumberToString(int num);
-    int StringToNumber(const std::string& str);
-=======
 
     std::string IntegerToString(int num);    
->>>>>>> upstream/master
     std::string RoundDouble(double num);
 
 
