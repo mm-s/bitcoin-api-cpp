@@ -35,7 +35,7 @@ using std::vector;
 using namespace std;
 
 BitcoinAPI::BitcoinAPI(const string& user, const string& password, const string& host, int port)
-: httpClient(new HttpClient("http://" + user + ":" + password + "@" + host + ":" + NumberToString(port))),
+: httpClient(new HttpClient("http://" + user + ":" + password + "@" + host + ":" + IntegerToString(port))),
   client(new Client(*httpClient, JSONRPC_CLIENT_V1))
 {
     httpClient->SetTimeout(50000);
@@ -45,26 +45,6 @@ BitcoinAPI::~BitcoinAPI()
 {
     delete client;
     delete httpClient;
-}
-
-string BitcoinAPI::NumberToString (int number){
-	std::ostringstream ss;
-	ss << number;
-	return ss.str();
-}
-
-int BitcoinAPI::StringToNumber (const string &text){
-	std::istringstream ss(text);
-	int result;
-	return ss >> result ? result : 0;
-}
-
-string BitcoinAPI::RoundDouble(double num)
-{
-	ostringstream os;
-	os << fixed << dec << setprecision(8) << num;
-cout << "using " << os.str() << endl;
-	return os.str();
 }
 
 Value BitcoinAPI::sendcommand(const string& command, const Value& params){    
@@ -79,6 +59,22 @@ Value BitcoinAPI::sendcommand(const string& command, const Value& params){
 	}
 
 	return result;
+}
+
+
+string BitcoinAPI::IntegerToString(int num){
+	std::ostringstream ss;
+	ss << num;
+	return ss.str();
+}
+
+std::string BitcoinAPI::RoundDouble(double num)
+{
+	std::ostringstream ss;
+	ss.precision(8);
+
+	ss << std::fixed << num;
+	return ss.str();
 }
 
 
