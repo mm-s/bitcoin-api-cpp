@@ -134,6 +134,17 @@
 		std::string hex;
 	};
 
+	struct decodescript_t{
+		std::string assm;
+		std::string type;
+		std::string p2sh;
+
+		int reqSigs;
+		std::vector<std::string> addresses;
+
+		void dump(std::ostream&) const;
+	};
+
 
 	/* decoderawtransaction return type */
 	struct scriptSig_t{
