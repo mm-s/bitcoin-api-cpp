@@ -141,8 +141,6 @@
 
 		int reqSigs;
 		std::vector<std::string> addresses;
-
-		void dump(std::ostream&) const;
 	};
 
 
