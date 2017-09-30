@@ -1107,7 +1107,7 @@ decodescript_t BitcoinAPI::decodescript(const std::string& hexString) {
 		Value val = (*it);
 		ret.addresses.push_back(val.asString());
 	}
-	return std::move(ret);
+	return ret;
 }
 
 decoderawtransaction_t BitcoinAPI::decoderawtransaction(const string& hexString) {
@@ -1325,20 +1325,3 @@ utxosetinfo_t BitcoinAPI::gettxoutsetinfo() {
 
 	return ret;
 }
-
-
-void decodescript_t::dump(std::ostream& os) const {
-	os << "asm: " << assm << endl;
-	os << "type: " << type << endl;
-	os << "p2sh:" << p2sh << endl;
-	if (type=="multisig") {
-		os << "reqSigs: " << reqSigs << endl;
-		os << "addresses:" << endl;
-		for (auto&i:addresses)	
-		os << "    " << i << endl;
-	}
-}
-
-
-
-
