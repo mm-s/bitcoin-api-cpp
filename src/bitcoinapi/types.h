@@ -142,7 +142,7 @@
 		int reqSigs;
 		std::vector<std::string> addresses;
 
-		void dump(std::ostream&) const;
+		void dump(const std::string& prefix, std::ostream&) const;
 	};
 
 
@@ -199,10 +199,17 @@
 		std::string redeemScript;
 	};
 
+	struct signrawtransaction_error_t {
+		std::string txid;
+		void dump(const std::string& prefix, std::ostream&) const;
+	};
+
 	/* signrawtransaction return type */
 	struct signrawtransaction_t{
 		std::string hex;
 		bool complete;
+		std::vector<signrawtransaction_error_t> errors;
+		void dump(const std::string& prefix, std::ostream&) const;
 	};
 
 

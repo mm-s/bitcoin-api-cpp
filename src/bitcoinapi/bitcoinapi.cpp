@@ -1217,6 +1217,19 @@ signrawtransaction_t BitcoinAPI::signrawtransaction(const string& rawTx, const v
 	ret.hex = result["hex"].asString();
 	ret.complete = result["complete"].asBool();
 
+
+//        for(ValueIterator it = result["scriptPubKey"]["addresses"].begin(); it != result["scriptPubKey"]["addresses"].end(); it++){
+  //              ret.scriptPubKey.addresses.push_back((*it).asString());
+    //    }
+
+	for(ValueIterator it = result["errors"].begin(); it != result["errors"].end(); it++){
+		signrawtransaction_error_t i;
+		auto& j=(*it)["txid"];
+		i.txid=j.asString();
+		ret.errors.push_back(i);
+	}
+
+
 	return ret;
 }
 
@@ -1327,18 +1340,33 @@ utxosetinfo_t BitcoinAPI::gettxoutsetinfo() {
 }
 
 
-void decodescript_t::dump(std::ostream& os) const {
-	os << "asm: " << assm << endl;
-	os << "type: " << type << endl;
-	os << "p2sh:" << p2sh << endl;
+void decodescript_t::dump(const string& prefix, std::ostream& os) const {
+	os << prefix << "asm: " << assm << endl;
+	os << prefix << "type: " << type << endl;
+	os << prefix << "p2sh:" << p2sh << endl;
 	if (type=="multisig") {
-		os << "reqSigs: " << reqSigs << endl;
-		os << "addresses:" << endl;
+		os << prefix << "reqSigs: " << reqSigs << endl;
+		os << prefix << "addresses:" << endl;
 		for (auto&i:addresses)	
-		os << "    " << i << endl;
+		os << prefix << "    " << i << endl;
 	}
 }
 
+void signrawtransaction_error_t::dump(const string& prefix, std::ostream& os) const {
+	os << prefix << "txid: " << txid << endl;
+}
+
+void signrawtransaction_t::dump(const string& prefix, std::ostream& os) const {
+        os << prefix << "hex: " << hex << endl;
+        os << prefix << "complete: " << complete << endl;
+	if (!errors.empty()) {
+		os << prefix << errors.size() << " errors:" << endl;
+	        for (auto&i:errors) {
+			i.dump(prefix+"   ",os);
+	        }
+	}
+	else os << prefix << "no errors" << endl;
+}
 
 
 
