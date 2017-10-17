@@ -1368,7 +1368,6 @@ utxosetinfo_t BitcoinAPI::gettxoutsetinfo() {
 	return ret;
 }
 
-
 void decodescript_t::dump(const string& prefix, std::ostream& os) const {
 	os << prefix << "asm: " << assm << endl;
 	os << prefix << "type: " << type << endl;
@@ -1396,6 +1395,3 @@ void signrawtransaction_t::dump(const string& prefix, std::ostream& os) const {
 	}
 	else os << prefix << "no errors" << endl;
 }
-
-
-
