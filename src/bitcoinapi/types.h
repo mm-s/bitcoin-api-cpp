@@ -145,7 +145,6 @@
 		void dump(const std::string& prefix, std::ostream&) const;
 	};
 
-
 	/* decoderawtransaction return type */
 	struct scriptSig_t{
 		std::string assm;
@@ -183,6 +182,8 @@
 		std::vector<vin_t> vin;
 		std::vector<vout_t> vout;
 	};
+
+
 
 	/* getrawtransaction return type */
 	struct getrawtransaction_t: decoderawtransaction_t{

@@ -1103,10 +1103,12 @@ decodescript_t BitcoinAPI::decodescript(const std::string& hexString) {
 	ret.reqSigs = result["reqSigs"].asInt();
 	ret.type = result["type"].asString();
 	ret.p2sh = result["p2sh"].asString();
+	
 	for (ValueIterator it = result["addresses"].begin(); it != result["addresses"].end(); it++) {
 		Value val = (*it);
 		ret.addresses.push_back(val.asString());
 	}
+
 	return std::move(ret);
 }
 
@@ -1183,6 +1185,33 @@ string BitcoinAPI::createrawtransaction(const vector<txout_t>& inputs, const map
 	Value obj(Json::objectValue);
 	for(map<string,double>::const_iterator it = amounts.begin(); it != amounts.end(); it++){
 		obj[(*it).first] = RoundDouble((*it).second);
+	}
+
+	params.append(vec);
+	params.append(obj);
+	result = sendcommand(command, params);
+
+	return result.asString();
+}
+
+string BitcoinAPI::createrawtransaction(const vector<txout_t>& inputs, const map<string,string>& amounts) {
+	string command = "createrawtransaction";
+	Value params, result;
+
+	Value vec(Json::arrayValue);
+	for(vector<txout_t>::const_iterator it = inputs.begin(); it != inputs.end(); it++){
+		Value val;
+		txout_t tmp = (*it);
+
+		val["txid"] = tmp.txid;
+		val["vout"] = tmp.n;
+
+		vec.append(val);
+	}
+
+	Value obj(Json::objectValue);
+	for(map<string,string>::const_iterator it = amounts.begin(); it != amounts.end(); it++){
+		obj[(*it).first] = (*it).second;
 	}
 
 	params.append(vec);
