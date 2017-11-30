@@ -198,6 +198,7 @@
 	struct signrawtxin_t: txout_t{
 		std::string scriptPubKey;
 		std::string redeemScript;
+		std::string preScript;
 	};
 
 	struct signrawtransaction_error_t {

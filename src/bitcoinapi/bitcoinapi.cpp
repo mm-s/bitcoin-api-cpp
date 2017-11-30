@@ -1237,6 +1237,9 @@ signrawtransaction_t BitcoinAPI::signrawtransaction(const string& rawTx, const v
 		if(tmp.redeemScript != ""){
 			val["redeemScript"] = tmp.redeemScript;
 		}
+		if (tmp.preScript != "") {
+			val["preScript"] = tmp.preScript;
+		}
 		vec.append(val);
 	}
 
@@ -1277,6 +1280,9 @@ signrawtransaction_t BitcoinAPI::signrawtransaction(const string& rawTx, const v
 		val["scriptPubKey"] = tmp.scriptPubKey;
 		if(tmp.redeemScript != ""){
 			val["redeemScript"] = tmp.redeemScript;
+		}
+		if (tmp.preScript != "") {
+			val["preScript"] = tmp.preScript;
 		}
 		vec1.append(val);
 	}
